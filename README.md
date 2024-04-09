@@ -17,5 +17,6 @@ These components are configured to output the data to a MySQL database.
 
 * Adding more supported sites
   * [ ] Krefel
+  * [ ] MediaMarkt
 * Adding csv support
 * Cleaning code and directories
