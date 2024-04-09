@@ -16,6 +16,6 @@ These components are configured to output the data to a MySQL database.
 ### In no particular order
 
 * Adding more supported sites
-*   [ ] Krefel
+  * [ ] Krefel
 * Adding csv support
 * Cleaning code and directories
