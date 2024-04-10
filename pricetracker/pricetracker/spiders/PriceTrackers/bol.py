@@ -10,6 +10,7 @@ class BolSpider(scrapy.Spider):
             "pricetracker.pipelines.priceComparerPipeline": 100,
             "pricetracker.pipelines.DuplicateItemPipeline": 350,
             "pricetracker.pipelines.SavingToMySQLPipelineComparer": 400,
+            "pricetracker.pipelines.PriceTrackerCSV": None,
         }
     }
     allowed_domains = ["bol.com"]
