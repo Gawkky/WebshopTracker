@@ -15,7 +15,7 @@ class KrefelSpider(scrapy.Spider):
         }
     }
     allowed_domains = ["krefel.be"]
-    start_urls = ["https://krefel.be"]
+    start_urls = ["https://www.krefel.be"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
