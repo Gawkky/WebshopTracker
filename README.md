@@ -18,6 +18,7 @@ These components are configured to output the data to a MySQL database.
 * Adding more supported sites
   * [ ] Krefel
     * Previous tests shows there is a need for dynamic loading
+    * Tests show a timeout in request, potentialy blocking requests, extra safeguards needed
   * [ ] MediaMarkt (WIP)
     * 403 Error: Needed extra safeguards to circumvent the block
 * Adding csv support
