@@ -57,6 +57,13 @@ class DuplicateItemPipeline(object):
             self.seen_urls.add(item_url)
             return item
 
+class RetourTrackerCSV(object):
+    def __init__(self):
+        test = ""
+
+class PriceTrackerCSV(object):
+    def __init__(self):
+        test = ""
 
 class SavingToMySQLPipelineBolRetour(object):
     def __init__(self):
