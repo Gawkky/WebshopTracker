@@ -16,7 +16,7 @@ import os
 
 load_dotenv()
 
-class PricetrackerPipeline:
+class PriceTrackerPipeline:
     def process_item(self, item, spider):
         item['name'] = item['name'].replace('\n', '').strip().replace("Tweedekans ", "")
         item['original_price'] = item['original_price'].replace('\n', '').replace(".", "").replace(",", ".").replace('.-', '.00').strip()

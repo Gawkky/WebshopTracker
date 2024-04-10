@@ -7,7 +7,7 @@ class BolretourdealtrackerSpider(scrapy.Spider):
     name = "bolretourdealtracker"
     custom_settings = {
         'ITEM_PIPELINES': {
-            "pricetracker.pipelines.PricetrackerPipeline": 250,
+            "pricetracker.pipelines.PriceTrackerPipeline": 250,
             "pricetracker.pipelines.DuplicateItemPipeline": 350,
             "pricetracker.pipelines.SavingToMySQLPipelineBolRetour": 600,
         }
