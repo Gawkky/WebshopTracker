@@ -9,7 +9,7 @@ class BolretourdealtrackerSpider(scrapy.Spider):
         'ITEM_PIPELINES': {
             "pricetracker.pipelines.PriceTrackerPipeline": 250,
             "pricetracker.pipelines.DuplicateItemPipeline": 350,
-            "pricetracker.pipelines.SavingToMySQLPipelineBolRetour": 600,
+            "pricetracker.pipelines.SavingToMySQLPipelineRetour": 600,
         }
     }
     allowed_domains = ["www.bol.com"]
