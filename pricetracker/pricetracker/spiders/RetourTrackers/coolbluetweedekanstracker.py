@@ -65,5 +65,6 @@ class CoolbluetweedekanstrackerSpider(scrapy.Spider):
         Tweedekans_Item['cat'] = item_info.xpath('//ol[1]/li[1]/a[1]/text()').get()
         Tweedekans_Item['Factory_code'] = item_info.xpath("//dl[@data-property-name='Fabrikantcode']/dd/text()").get()
         Tweedekans_Item['date'] = datetime.now().strftime('%Y%m%d')
+        Tweedekans_Item['website'] = 'coolblue'
         yield Tweedekans_Item
         pass

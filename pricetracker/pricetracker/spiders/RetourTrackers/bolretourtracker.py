@@ -67,5 +67,6 @@ class BolretourdealtrackerSpider(scrapy.Spider):
         else:
             RetourDeals_Item['Factory_code'] = None
         RetourDeals_Item['date'] = datetime.now().strftime('%Y%m%d')
+        RetourDeals_Item['website'] = 'bol.com'
         yield RetourDeals_Item
         pass

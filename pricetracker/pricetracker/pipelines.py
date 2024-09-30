@@ -5,8 +5,6 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
-from datetime import datetime
 from scrapy.utils.url import canonicalize_url
 from scrapy.exceptions import DropItem
 import mysql.connector
@@ -29,17 +27,6 @@ class PriceTrackerPipeline:
         item['cat'] = item['cat'].replace('\n', '').strip()
         if item['Factory_code'] != None:
             item['Factory_code'] = item['Factory_code'].replace('\n', '').strip()
-        return item
-
-class priceComparerPipeline:
-    def process_item(self, item, spider):
-        item['name'] = item['name'].replace('\n', '').strip()
-        if item['price'] == None:
-            item['price'] = "Null"
-            item['url'] = "Null"
-        else:
-            item['price'] = item['price'].replace(",",".").replace(".-",".00").replace("\xa0€", "").replace("\u202f", "")
-            item['url'] = re.sub(r'/ref=.*', '', item['url'])
         return item
 
 class DuplicateItemPipeline(object):
@@ -173,65 +160,6 @@ class SavingToMySQLPipelineCoolblueRetour(object):
             "INSERT INTO coolblue (name, original_price, new_price, url, score, cat, Factory_code, date) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
             (item['name'], item['original_price'], item['new_price'],
              item['url'], item['score'], item['cat'], item['Factory_code'], item['date'])
-        )
-        self.connection.commit()
-
-    def close_spider(self, spider):
-        self.curr.close()
-        self.connection.close()
-
-class SavingToMySQLPipelineComparer(object):
-    def __init__(self):
-        self.create_connection()
-
-    def create_connection(self):
-        self.connection = mysql.connector.connect(
-            host=os.getenv('DB_HOST'),
-            user=os.getenv('DB_USER'),
-            password=os.getenv('DB_PASSWORD'),
-            database=os.getenv('DB_DATABASE'),
-            port=os.getenv('DB_PORT')
-        )
-        self.curr = self.connection.cursor()
-
-    def create_table(self):
-        self.curr.execute("""
-            CREATE TABLE IF NOT EXISTS priceComparer (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(255),
-                price VARCHAR(255),
-                site VARCHAR(255),
-                url VARCHAR(255),
-                date DATE
-            )
-        """)
-        self.connection.commit()
-
-    def process_item(self, item, spider):
-        self.create_table()
-
-        if self.is_item_exists(item):
-            return item
-
-        self.store_db(item)
-        return item
-
-    def is_item_exists(self, item):
-        try:
-            # Implement your logic to check if the item already exists in the database
-            query = "SELECT COUNT(*) FROM priceComparer WHERE name = %s AND price = %s AND site = %s AND url = %s AND date = %s"
-
-            self.curr.execute(query, (item['name'], item['price'], item['site'], item['url'], item['date']))
-            result = self.curr.fetchone()
-            return result[0] > 0
-        except mysql.connector.Error as err:
-            print("Error:", err)
-            return False
-
-    def store_db(self, item):
-        self.curr.execute(
-            "INSERT INTO priceComparer (name, price, site, url, date) VALUES (%s, %s, %s, %s, %s)",
-            (item['name'], item['price'], item['site'], item['url'], item['date'])
         )
         self.connection.commit()
 

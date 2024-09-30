@@ -11,7 +11,7 @@ import os
 
 BOT_NAME = "pricetracker"
 
-SPIDER_MODULES = ["pricetracker.spiders", "pricetracker.spiders.RetourTrackers", "pricetracker.spiders.PriceTrackers"]
+SPIDER_MODULES = ["pricetracker.spiders", "pricetracker.spiders.RetourTrackers"]
 NEWSPIDER_MODULE = "pricetracker.spiders"
 
 
