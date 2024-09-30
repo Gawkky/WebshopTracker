@@ -7,14 +7,10 @@ from scrapy import signals
 from urllib.parse import urlencode
 from random import randint
 import requests
-import mysql.connector
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
-
-# useful for handling different item types with a single interface
-from itemadapter import is_item, ItemAdapter
 
 
 class PricetrackerSpiderMiddleware:
