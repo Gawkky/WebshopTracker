@@ -17,13 +17,16 @@ load_dotenv()
 class PriceTrackerPipeline:
     def process_item(self, item, spider):
         item['name'] = item['name'].replace('\n', '').strip().replace("Tweedekans ", "")
-        item['original_price'] = item['original_price'].replace('\n', '').replace(".", "").replace(",", ".").replace('.-', '.00').strip()
+        item['original_price'] = item['original_price'].replace('\n', '').replace(".", "").replace(",", ".").replace('.-', '.00').replace('€', '').strip()
         if item['original_price']:
             item['original_price'] = float(item['original_price'])
         else:
             item['original_price'] = None
         item['url'] = item['url'].replace('?referrer=socialshare_pdp_www', '')
-        item['score'] = float(item['score'].replace(",", ".")) if item['score'] else '0.00'
+        try:
+            item['score'] = float(item['score'].replace(",", ".").strip()) if item['score'] else '0.00'
+        except:
+            item['score'] = 0.0
         item['cat'] = item['cat'].replace('\n', '').strip()
         if item['Factory_code'] != None:
             item['Factory_code'] = item['Factory_code'].replace('\n', '').strip()
@@ -86,7 +89,7 @@ class SavingToMySQLPipelineRetour(object):
         return item
 
     def is_item_exists(self, item):
-        query = "SELECT COUNT(*) FROM bol_com WHERE name = %s AND original_price = %s AND new_price = %s AND url = %s AND score = %s AND cat = %s AND Factory_code =%s AND website =%s AND date = %s"
+        query = "SELECT COUNT(*) FROM retourdeals WHERE name = %s AND original_price = %s AND new_price = %s AND url = %s AND score = %s AND cat = %s AND Factory_code =%s AND website =%s AND date = %s"
 
         self.curr.execute(query, (item['name'], item['original_price'],
                           item['new_price'], item['url'], item['score'], item['cat'], item['Factory_code'], item['website'], item['date']))
@@ -96,7 +99,7 @@ class SavingToMySQLPipelineRetour(object):
 
     def store_db(self, item):
         self.curr.execute(
-            "INSERT INTO bol_com (name, original_price, new_price, url, score, cat, Factory_code, website, date) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            "INSERT INTO retourdeals (name, original_price, new_price, url, score, cat, Factory_code, website, date) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
             (item['name'], item['original_price'], item['new_price'],
              item['url'], item['score'], item['cat'], item['Factory_code'], item['website'], item['date'])
         )

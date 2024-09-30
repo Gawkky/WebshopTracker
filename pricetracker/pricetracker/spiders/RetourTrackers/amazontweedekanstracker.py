@@ -13,18 +13,18 @@ class AmazontweedekanstrackerSpider(scrapy.Spider):
         }
     }
     allowed_domains = ["amazon.com.be"]
-    start_urls = ["https://www.amazon.com.be/s?i=specialty-aps&srs=95013397031"]
+    start_urls = ["https://www.amazon.com.be/"]
 
     def parse(self, response):
         items = response.css('div.sg-col-20-of-24.s-result-item.s-asin.sg-col-0-of-12.sg-col-16-of-20.sg-col.s-widget-spacing-small.sg-col-12-of-16')
-        categories = ["&rh=n%3A95013397031%2Cn%3A27156257031"]
+        categories = ["s?i=electronics"]
         base_url = "https://www.amazon.com.be"
         language = "&language=nl_BE"
-        start_url = f"{base_url}/s?i=specialty-aps&srs=95013397031{language}"
+        start_url = f"{base_url}/"
         pass
 
         for category in categories:
-            yield response.follow(start_url + category + language)
+            yield response.follow(start_url + category + '&srs=95013409031' + language)
 
             try:
                 for item in items:
@@ -52,8 +52,9 @@ class AmazontweedekanstrackerSpider(scrapy.Spider):
         new_price + "." + fraction
         Tweedekans_Item['new_price'] = new_price
         Tweedekans_Item['url'] = response.request.url
-        Tweedekans_Item['score'] = item_info.css('span.reviewCountTextLinkedHistogram.noUnderline span a span::text').get().strip().replace(",", ".")
+        Tweedekans_Item['score'] = item_info.css('span.reviewCountTextLinkedHistogram.noUnderline span a span::text').get()
         Tweedekans_Item['score'] = response.xpath("//div[contains(@id, 'showing-breadcrumbs_div')]/div/div/div/ul/li[last()]/span/a/text()").get()
+        Tweedekans_Item['cat'] = response.xpath("//div[@id='nav-subnav']/@data-category").get()
         Tweedekans_Item['Factory_code'] = item_info.xpath("//div[contains(@id, 'title_feature_div')]/@data-csa-c-asin").get()
         Tweedekans_Item['date'] = datetime.now().strftime('%Y%m%d')
         Tweedekans_Item['website'] = 'amazon'
