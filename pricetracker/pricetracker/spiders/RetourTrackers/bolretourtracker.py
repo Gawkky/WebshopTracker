@@ -9,7 +9,7 @@ class BolretourdealtrackerSpider(scrapy.Spider):
         'ITEM_PIPELINES': {
             "pricetracker.pipelines.PriceTrackerPipeline": 250,
             "pricetracker.pipelines.DuplicateItemPipeline": 350,
-            "pricetracker.pipelines.SavingToMySQLPipelineBolRetour": 600,
+            "pricetracker.pipelines.SavingToMySQLPipelineRetour": 600,
         }
     }
     allowed_domains = ["www.bol.com"]
@@ -58,7 +58,7 @@ class BolretourdealtrackerSpider(scrapy.Spider):
         elif fraction:
             new_price + "." + fraction
         RetourDeals_Item['new_price'] = new_price
-        RetourDeals_Item['url'] = item_info.css('div.pdp-header__meta-item a wsp-share').attrib['share-url']
+        RetourDeals_Item['url'] = response.request.url
         RetourDeals_Item['score'] = item_info.css('div.star-rating span span.is-hidden span::text').get()
         RetourDeals_Item['cat'] = item_info.xpath("//ul[1]/li[last()]/span[1]/a[1]/p[1]/text()").get()
         Factory_code = item_info.xpath("//dt[normalize-space()='MPN (Manufacturer Part Number)']/following::dd/text()").get()
@@ -67,5 +67,6 @@ class BolretourdealtrackerSpider(scrapy.Spider):
         else:
             RetourDeals_Item['Factory_code'] = None
         RetourDeals_Item['date'] = datetime.now().strftime('%Y%m%d')
+        RetourDeals_Item['website'] = 'bol.com'
         yield RetourDeals_Item
         pass

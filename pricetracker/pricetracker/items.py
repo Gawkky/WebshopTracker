@@ -14,12 +14,5 @@ class ReturnItem(scrapy.Item):
     cat = scrapy.Field()
     Factory_code = scrapy.Field()
     date = scrapy.Field()
-    pass
-
-class CompareItem(scrapy.Item):
-    site = scrapy.Field()
-    name = scrapy.Field()
-    price = scrapy.Field()
-    url = scrapy.Field()
-    date = scrapy.Field()
+    website = scrapy.Field()
     pass

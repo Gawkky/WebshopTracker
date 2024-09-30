@@ -9,7 +9,7 @@ class CoolbluetweedekanstrackerSpider(scrapy.Spider):
         'ITEM_PIPELINES': {
             "pricetracker.pipelines.PriceTrackerPipeline": 250,
             "pricetracker.pipelines.DuplicateItemPipeline": 350,
-            "pricetracker.pipelines.SavingToMySQLPipelineCoolblueRetour": 600,
+            "pricetracker.pipelines.SavingToMySQLPipelineRetour": 600,
         }
     }
     allowed_domains = ["coolblue.be"]
@@ -50,12 +50,7 @@ class CoolbluetweedekanstrackerSpider(scrapy.Spider):
         Tweedekans_Item['name'] = item_info.css('h1.js-product-name::text').get()
         Tweedekans_Item['original_price'] = item_info.css('span.sales-price__former-price::text').get(default='')
         Tweedekans_Item['new_price'] = item_info.css('strong.sales-price__current.js-sales-price-current::text').get(default='NULL').replace('\n', '').strip().replace(".", "").replace(",", ".").replace('.-', '.00')
-        # Built URL
-        url = item_info.css('input.js-product-slot-price ::attr(value)').get()
-        if url is not None:
-            Tweedekans_Item['url'] = f"https://www.coolblue.be/nl/tweedekans-product/"+ url
-        else:
-            Tweedekans_Item['url'] = "NULL"
+        Tweedekans_Item['url'] = response.request.url
         # Built scores
         score = item_info.css('span.review-rating__reviews.text--truncate::text').get().replace('\n', '').strip().split('/',1)[0].replace(".", "").replace(",", ".").replace('.-', '.00')
         if score != "0 reviews":
@@ -65,5 +60,6 @@ class CoolbluetweedekanstrackerSpider(scrapy.Spider):
         Tweedekans_Item['cat'] = item_info.xpath('//ol[1]/li[1]/a[1]/text()').get()
         Tweedekans_Item['Factory_code'] = item_info.xpath("//dl[@data-property-name='Fabrikantcode']/dd/text()").get()
         Tweedekans_Item['date'] = datetime.now().strftime('%Y%m%d')
+        Tweedekans_Item['website'] = 'coolblue'
         yield Tweedekans_Item
         pass
