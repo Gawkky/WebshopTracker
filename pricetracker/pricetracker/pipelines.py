@@ -17,7 +17,7 @@ load_dotenv()
 class PriceTrackerPipeline:
     def process_item(self, item, spider):
         item['name'] = item['name'].replace('\n', '').strip().replace("Tweedekans ", "")
-        item['original_price'] = item['original_price'].replace('\n', '').replace(".", "").replace(",", ".").replace('.-', '.00').strip()
+        item['original_price'] = item['original_price'].replace('\n', '').replace(".", "").replace(",", ".").replace('.-', '.00').replace('€\xa0', '').strip()
         if item['original_price']:
             item['original_price'] = float(item['original_price'])
         else:
