@@ -145,27 +145,3 @@ class FakeUserAgentMiddleware:
     def process_request(self, request, spider):        
         random_user_agent = self._get_random_user_agent()
         request.headers['User-Agent'] = random_user_agent
-
-class DatabaseMiddleware:
-    def __init__(self):
-        self.connection = mysql.connector.connect(
-            host=os.getenv('DB_HOST'),
-            user=os.getenv('DB_USER'),
-            password=os.getenv('DB_PASSWORD'),
-            database=os.getenv('DB_DATABASE'),
-            port=os.getenv('DB_PORT')
-        )
-
-    def assign_product_names(self, spider):
-        cursor = self.connection.cursor()
-        query = "SELECT product_names FROM products"
-        cursor.execute(query)
-        product_names = cursor.fetchall()
-        cursor.close()
-
-        # Assign product names to the spider
-        spider.product_names = [name[0] for name in product_names]
-    
-    def close(self):
-        # Close database connection
-        self.connection.close()
