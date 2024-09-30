@@ -2,9 +2,7 @@
 
 ### General information
 
-This webscrapes has 2 components
-
-1. Tracking Returndeals from bol.com & coolblue
+Tracking Returndeals from bol.com & coolblue
 
 These components are configured to output the data to a MySQL database.
 
