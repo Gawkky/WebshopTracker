@@ -1,0 +1,12 @@
+from scrapy.crawler import CrawlerProcess
+from scrapy.utils.project import get_project_settings
+from pricetracker.spiders.RetourTrackers.bolretourtracker import BolretourdealtrackerSpider
+from pricetracker.spiders.RetourTrackers.coolbluetweedekanstracker import CoolbluetweedekanstrackerSpider
+from pricetracker.spiders.RetourTrackers.amazontweedekanstracker import AmazontweedekanstrackerSpider
+
+process = CrawlerProcess(get_project_settings())
+
+process.crawl(BolretourdealtrackerSpider)
+process.crawl(CoolbluetweedekanstrackerSpider)
+process.crawl(AmazontweedekanstrackerSpider)
+process.start()
