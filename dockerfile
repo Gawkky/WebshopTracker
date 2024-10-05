@@ -29,7 +29,7 @@ RUN touch /var/log/cron.log
 COPY .env .env
 
 # Set the working directory to the folder containing run_spiders.py
-WORKDIR /app/pricetrackers
+WORKDIR /app/pricetracker
 
 # Run run_spiders.py when the container launches
-CMD ["python", "run_spiders.py"]
+CMD ["sh", "-c", "cron && python run_spiders.py && tail -f /var/log/cron.log"]
