@@ -22,7 +22,6 @@ class PriceTrackerPipeline:
             item['original_price'] = float(item['original_price'])
         else:
             item['original_price'] = None
-        item['url'] = item['url'].replace('?referrer=socialshare_pdp_www', '')
         try:
             item['score'] = float(item['score'].replace(",", ".").strip()) if item['score'] else '0.00'
         except:

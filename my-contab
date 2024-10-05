@@ -1,2 +1,2 @@
 # Run scrapers every monday at 05:00
-0 5 * * 1 /user/bin/python /pricetracker/run_spiders.py >> /var/log/cron.log 2>&1
+0 5 * * 1 /usr/bin/python /pricetracker/run_spiders.py >> /var/log/cron.log 2>&1
